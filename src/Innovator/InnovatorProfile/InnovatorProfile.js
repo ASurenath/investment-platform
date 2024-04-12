@@ -39,7 +39,7 @@ function InnovatorProfile() {
                 <i class="fa-solid fa-link ms-4"></i>
               </div>
               <div className="text-center mt-4">
-               <Link to={'/innovator-profile-edit'} style={{textDecoration:'none'}}>
+               <Link to={'/innovator/profile-edit'} style={{textDecoration:'none'}}>
                   <button className="button p-1" >
                     <b>Edit Profile</b>
                   </button>
