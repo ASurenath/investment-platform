@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import "./InnovatorAuth.css";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
 
 function InnovatorAuth() {
   const [showText, setShowText] = useState(false);
