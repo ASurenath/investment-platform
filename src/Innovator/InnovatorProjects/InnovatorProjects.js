@@ -1,7 +1,12 @@
 import React, { useState } from 'react'
 import { Button, Card, Col, Container, FloatingLabel, Form, InputGroup, Modal, ProgressBar, Row } from 'react-bootstrap'
 import './InnovatorProject.css'
+import Header from '../../CommonComponents/Header';
+
 function InnovatorProjects() {
+    const [iPreviews, setIPreviews] = useState([])
+    console.log(iPreviews);
+    const [vPreviews, setVPreviews] = useState([])
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -42,15 +47,41 @@ function InnovatorProjects() {
         PostedOn: "2024-03-02",
         EndsOn: "2024-08-02",
     }]
+    const handleVideoUpload = (e) => {
+        console.log("step1");
+        let video = e.target.files[0]
+        if (video) {
+            console.log("step2");
+            setVPreviews([...vPreviews, URL.createObjectURL(video)])
+        }
+    }
+    const handleImageUpload = (e) => {
+        console.log("step1");
+        let image = e.target.files[0]
+        if (image) {
+            console.log("step2");
+            setIPreviews([...iPreviews, URL.createObjectURL(image)])
+        }
+    }
+    const handleRemoveImage = (index) => {
+        let tempIPreviews = [...iPreviews]
+        tempIPreviews.splice(index, 1)
+        setIPreviews(tempIPreviews)
+    }
+    const handleRemoveVideo = (index) => {
+        let tempVPreviews = [...vPreviews]
+        tempVPreviews.splice(index, 1)
+        setVPreviews(tempVPreviews)
+    }
     return (
-        <>
+        <><div className='sticky-top'><Header /></div>
             <div className='main-div'>
                 <Container className='p-lg-5 p-2 text-center'>
-                    <Button onClick={handleShow} variant="outline-dark rounded-0 py-3 px-4" className='mx-auto d-flex align-items-center'><span className='hidden'>Add a project&nbsp;&nbsp;&nbsp;&nbsp;</span> <i class="fa-solid fa-plus fa-xl "></i></Button>
+                    <Button onClick={handleShow} variant="outline-dark rounded-0 py-3 px-4" className='mx-auto d-flex align-items-center'><span className='hidden'>Add a project&nbsp;&nbsp;&nbsp;&nbsp;</span> <i className="fa-solid fa-plus fa-xl "></i></Button>
 
                     <Row>
-                        {dummyProjects.length > 0 ? dummyProjects.map(project =>
-                            <Col lg={4} sm={6} className='p-3 '>
+                        {dummyProjects.length > 0 ? dummyProjects.map((project, index) =>
+                            <Col lg={4} sm={6} className='p-3' key={index}>
                                 <Card className='rounded-0 border-0 text-black grey-card' >
                                     <Card.Img src={project.image} className='project-image rounded-0 m-0' />
                                     <Card.Body className='m-0'>
@@ -60,10 +91,10 @@ function InnovatorProjects() {
                                             bulk of the card's content.
                                         </Card.Text>
 
-                                        <ProgressBar variant='success' className='striped' now={(project.AmountRaised/project.TargetAmount)*100} label={`₹${project.AmountRaised}`} title={`₹${project.AmountRaised} / ₹${project.TargetAmount}`}/>
+                                        <ProgressBar variant='success' className='striped' now={(project.AmountRaised / project.TargetAmount) * 100} label={`₹${project.AmountRaised}`} title={`₹${project.AmountRaised} / ₹${project.TargetAmount}`} />
                                         <small>Target: ₹{project.TargetAmount}</small>
                                         <div className='text-end'>
-                                            <Button variant="outline-dark rounded-0 " className='ms-auto'><i class="fa-solid fa-arrow-right"></i></Button>
+                                            <Button variant="outline-dark rounded-0 " className='ms-auto'><i className="fa-solid fa-arrow-right"></i></Button>
 
                                         </div>                                    </Card.Body>
                                 </Card>
@@ -82,7 +113,7 @@ function InnovatorProjects() {
                         <div className='text-center w-100'>
                             <label style={{ cursor: 'pointer' }} >
                                 <input type="file" name="" id="" accept='image/.png,image/.jpg' style={{ display: 'none' }} />
-                                <img src={uploadImage} alt="Cover Image Upload" height={200} className='border border-black p-3'/>
+                                <img src={uploadImage} alt="Cover Image Upload" height={200} className='border border-black p-3' />
                                 <p>Cover image (png / jpg)</p>
                             </label></div>
                         <FloatingLabel label="Project name" className="mb-3">
@@ -111,22 +142,39 @@ function InnovatorProjects() {
                     <Row>
                         <Col sm={6} className='text-center'>
                             <h4>Images</h4>
+                            {iPreviews?.map((i, index) => <div>
+                                <div className='w-100 border border-black mb-2 p-2 flex-flex-column' key={index}>
+                                    <Button variant='outline-dark border-0 rounded-5' onClick={() => handleRemoveImage(index)}><i className='fa-solid fa-x' /></Button>
+                                    <img src={i} alt={`image${index}`} className='img-fluid' /></div>
+                            </div>)}
                             <div>
                                 <label>
-                                    <input type="file" name="" id="" accept='image/.png , image/.jpg'  style={{display:'none'}}/>
+                                    <input type="file" name="" id="" accept="image/png, image/jpeg" onChange={e => handleImageUpload(e)} style={{ display: 'none' }} />
                                     <span className='btn btn-outline-dark rounded-5 p-3 mx-auto d-flex align-items-center'>
-                                    <i class="fa-solid fa-plus fa-xl "/>
+                                        <i className="fa-solid fa-plus fa-xl " />
                                     </span>
                                 </label>
                             </div>
                         </Col>
                         <Col sm={6} className='text-center'>
-                        <h4>Videos</h4>
-                        <div>
+                            <h4>Videos</h4>
+                            {vPreviews?.map((i, index) => <div>
+                                <div className='w-100 border border-black mb-2 p-2 flex-flex-column' key={index}>
+                                    <Button variant='outline-dark border-0 rounded-5' onClick={() => handleRemoveVideo(index)}><i className='fa-solid fa-x' /></Button>
+                                    <video width="320" height="240" controls>
+                                        <source src={i} type="video/mp4" />
+                                        <source src={i}  type="video/webm" />
+                                        <source src={i}  type="video/ogg" />
+                                        Your browser does not support the video tag.
+                                    </video>
+                                </div>
+                            </div>)}
+
+                            <div>
                                 <label>
-                                    <input type="file" name="" id="" accept='video'  style={{display:'none'}}/>
+                                    <input type="file" name="" id=""  accept="video/mp4,video/webm,video/ogg" onChange={e=>handleVideoUpload(e)} style={{ display: 'none' }} />
                                     <span className='btn btn-outline-dark rounded-5 p-3 mx-auto d-flex align-items-center'>
-                                    <i class="fa-solid fa-plus fa-xl "/>
+                                        <i className="fa-solid fa-plus fa-xl " />
                                     </span>
                                 </label>
                             </div>
