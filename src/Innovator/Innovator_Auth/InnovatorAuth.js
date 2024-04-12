@@ -28,17 +28,19 @@ function InnovatorAuth() {
   };
 
   return (
-    <div className="container">
+    <div className="cont">
       <div className="box-1">
         <div className="content-holder">
           {showText ? (
           <>
-                <h3>Don't have an account?
+                <h3 className="fs-1">Don't have an account?
                 </h3>
-                <h4> Please Sign up!</h4>
+                <h4 className="fs-3"> Please Sign up!</h4>
           </>
           ) : (
-            <h3>If you already has an account, <br /> just sign in.</h3>
+           <> <h3 className="fs-1">If you already has an account, </h3>
+             <h4 className="fs-3"> just sign in</h4>
+           </>
           )}
           <button className="button-1" onClick={handleSignup}>
             Sign up
