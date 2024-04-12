@@ -1,0 +1,42 @@
+.project-image {
+    height: 100%;
+}
+.main-div{
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(ellipse at 20% 80%, rgba(255,255,255,0.37298669467787116) 9%, rgba(240,240,240,0.7903536414565826) 58%, rgba(240,240,240,0.865983893557423) 82%);
+    background-position: -60%,60%;
+    background-attachment: fixed;
+}
+.project-title {
+    width: 95%;
+    margin-top: -70px !important;
+    border: solid 1px rgba(0, 0, 0, 0.476);
+    word-break: break-all;
+    hyphens: auto;
+    z-index: 100;
+}
+button .hidden {
+    max-width: 0;
+    -webkit-transition: max-width 1s;
+    transition: max-width 1s;
+    display: inline-block;
+    vertical-align: top;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  button:hover .hidden {
+    max-width: 7rem;
+  }
+.modal-addproject .modal-content{
+    border-radius: 0;
+}
+.grey-card{
+    filter:grayscale(.8);
+    -webkit-filter: grayscale(.8);
+    transition: cubic-bezier(0.075, 0.82, 0.165, 1) 2s;
+}
+.grey-card:hover{
+    filter:none;
+    -webkit-filter: none;
+}
