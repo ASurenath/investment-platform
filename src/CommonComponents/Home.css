@@ -33,6 +33,7 @@ object-fit: cover;
 
 .services:hover{
     transform: scale(1.05);
+    transition: 1s  ease-out;
 }
 
 .services-Img{
