@@ -1,0 +1,22 @@
+.investment-img{
+   height: 500px; 
+   width:100%;
+}
+.head1{
+    font-size: 70px;
+}
+.head2{
+    color: rgb(78, 75, 75);
+}
+.description{
+    font-size: 17px;
+}
+.aboutUs-body{
+    background-color: rgba(0, 0, 0, 0.1);
+}
+.about-us{
+}
+.aboutUsImg{
+    height: 400px;
+    object-fit:cover;
+}
