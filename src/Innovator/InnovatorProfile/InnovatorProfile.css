@@ -23,13 +23,13 @@
     border-bottom: 4px solid black; /* Adjust the thickness as needed */
     display: inline-block; /* Ensures the underline only covers the text width */
   }
-  .button{
+  .button:hover{
     background-color: white;
     border: 2px solid black;
     border-radius: 5px;
     color: black;
   }
-  .button:hover{
+  .button{
     background-color: rgb(23, 22, 22);
     border: 2px solid white;
     color: rgb(255, 255, 255);

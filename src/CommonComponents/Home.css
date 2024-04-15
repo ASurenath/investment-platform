@@ -8,15 +8,34 @@
 .head2{
     color: rgb(78, 75, 75);
 }
-.description{
-    font-size: 17px;
+.aboutUs-head{
+    font-size: 40px;
 }
 .aboutUs-body{
     background-color: rgba(0, 0, 0, 0.1);
 }
-.about-us{
-}
+
 .aboutUsImg{
-    height: 400px;
+    height: 272px;
     object-fit:cover;
+}
+.img{
+object-fit: cover;
+}
+.services{
+    background-color: rgb(23, 22, 22);
+    color: white;
+    align-items: center !important;
+    padding: 5%;
+    text-align: justify;
+    height: 455px;
+}
+
+.services:hover{
+    transform: scale(1.05);
+}
+
+.services-Img{
+    height: 200px;
+    margin: 4%;
 }

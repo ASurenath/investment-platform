@@ -5,6 +5,7 @@ import { Col, Container, Row } from "react-bootstrap";
 import "./Home.css";
 import investment from "../Assets/Investment.jpg";
 import About from "./About";
+import Services from "./Services";
 
 function Home() {
   const fetchNavObj = () => {
@@ -43,6 +44,7 @@ function Home() {
         </Row>
       </Container>
       <About />
+      <Services/>
       <Footer></Footer>
     </>
   );

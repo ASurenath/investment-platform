@@ -1,6 +1,7 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import aboutusImg from "../Assets/aboutusImg.jpg";
+import aboutImg from "../Assets/aboutImg.jpg";
 
 function About() {
   return (
@@ -10,7 +11,7 @@ function About() {
 
         <Row>
           <Col>
-            <h1 className="">
+            <h1 className="aboutUs-head">
               <b>
                 Where Vision Meets <span className="head2">Investment</span> for
                 Tomorrow's <span className="head2">Innovations.</span>
@@ -20,8 +21,8 @@ function About() {
               <img src={aboutusImg} className="aboutUsImg w-100" alt="" />
             </div>{" "}
           </Col>
-          <Col className="mt-2 about-us">
-            <p className="fs-6">
+          <Col className=" about-us">
+            <p className="">
               At Crowdfunding Ideas Platform, we're dedicated to revolutionizing
               the way innovative ideas come to life. Our platform serves as a
               dynamic hub where visionary creators and forward-thinking
@@ -36,7 +37,10 @@ function About() {
               user experience. With robust features such as secure financial
               transactions, real-time project monitoring, personalized
               dashboards, and direct messaging, we create a seamless environment
-              for idea exchange and investment opportunities.
+              for idea exchange and investment opportunities. <br /> <br />
+              Join us today and become part of a thriving community where ideas
+              transform into reality, and investments drive groundbreaking
+              achievements.
             </p>
           </Col>
         </Row>
