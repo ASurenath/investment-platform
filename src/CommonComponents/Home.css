@@ -40,3 +40,44 @@ object-fit: cover;
     height: 200px;
     margin: 4%;
 }
+.marquee-container {
+    width: 100%;
+   
+  }
+
+  .review-details{
+    background-color: rgb(0, 0, 0);
+    color: white;
+    padding: 2%;
+  }
+  .review-profile{
+    height:60px ;
+    width: 60px;
+    border-radius: 50% ;
+  }
+  .review {
+    margin: 1%;
+    text-align: justify;
+    padding: 2%;
+    display: inline-block;
+    width: 30%;
+    color: rgb(0, 0, 0);
+    animation: marquee-animation 10s linear infinite;
+    white-space: pre-line;
+  }
+  .paused {
+    animation-play-state: paused !important;
+  }
+
+  .scrolling-div {
+    transition: transform 0.3s ease;
+  }
+  
+  .scrolling-div.zoom {
+    transform: scale(1.2); /* Adjust the scale value as needed */
+  }
+  
+  @keyframes marquee {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+  }

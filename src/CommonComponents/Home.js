@@ -6,6 +6,8 @@ import "./Home.css";
 import investment from "../Assets/Investment.jpg";
 import About from "./About";
 import Services from "./Services";
+import Reviews from "./Reviews";
+
 
 function Home() {
   const fetchNavObj = () => {
@@ -45,7 +47,8 @@ function Home() {
       </Container>
       <About />
       <Services/>
-      <Footer></Footer>
+     < Reviews/>
+      <Footer/>
     </>
   );
 }
