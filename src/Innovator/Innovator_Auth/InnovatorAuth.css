@@ -3,8 +3,7 @@
 
   
   .cont
-  {
-    margin: 5%;
+  { margin-top: 5%;
     display: grid;
     grid-template-columns: 1fr 2fr;
     background: linear-gradient(to bottom, rgb(0, 0, 0),  rgb(0, 0, 0));

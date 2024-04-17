@@ -2,58 +2,56 @@ import React, { useState } from "react";
 import "./InnovatorAuth.css";
 
 function InnovatorAuth() {
-  const [showText, setShowText] = useState(false);
+  const [showSignup, setShowSignup] = useState(true);
 
   const handleSignup = () => {
-    setShowText(false);
-
-    document.querySelector(".login-form-container").style.display = "none";
-    document.querySelector(".signup-form-container").style.display = "block";
-    document.querySelector(".container").style.background =
-      "linear-gradient(to bottom, black)";
-    document.querySelector(".button-1").style.display = "none";
-    document.querySelector(".button-2").style.display = "block";
+    console.log(showSignup);
+    setShowSignup(false);
   };
 
   const handleLogin = () => {
-    setShowText(true);
-    document.querySelector(".signup-form-container").style.display = "none";
-    document.querySelector(".login-form-container").style.display = "block";
-    document.querySelector(".container").style.background =
-      "linear-gradient(to bottom, black)";
-    document.querySelector(".button-2").style.display = "none";
-    document.querySelector(".button-1").style.display = "block";
+    console.log(showSignup);
+
+    setShowSignup(true);
   };
+console.log(showSignup);
 
   return (
     <div className="cont">
       <div className="box-1">
         <div className="content-holder">
-          {showText ? (
-          <>
-                <h3 className="fs-1">Don't have an account?
-                </h3>
-                <h4 className="fs-3"> Please Sign up!</h4>
-          </>
+          {showSignup ? (
+            <>
+              <h3 className="fs-1">Don't have an account?</h3>
+              <h4 className="fs-3">Please Sign up!</h4>
+              <button className="button-1" onClick={handleSignup}>
+                Sign up
+              </button>
+            </>
           ) : (
-           <> <h3 className="fs-1">If you already has an account, </h3>
-             <h4 className="fs-3"> just sign in</h4>
-           </>
+            <>
+              <h3 className="fs-1">If you already have an account,</h3>
+              <h4 className="fs-3">just sign in</h4>
+              <button className="button-1 " onClick={handleLogin}>
+                Sign In
+              </button>
+            </>
           )}
-          <button className="button-1" onClick={handleSignup}>
-            Sign up
-          </button>
-          <button className="button-2" onClick={handleLogin}>
-           Sign In
-          </button>
         </div>
       </div>
 
       <div className="box-2">
         {/* Login Form */}
-        <div className="login-form-container">
+        <div
+          className="login-form-container"
+          style={{ display: showSignup ? "block" : "none" }}
+        >
           <h1 className="fs-1">Login Form</h1>
-          <input type="text" placeholder="Username" className="input-field mt-4" />
+          <input
+            type="text"
+            placeholder="Username"
+            className="input-field mt-4"
+          />
           <br />
           <br />
           <input
@@ -69,9 +67,16 @@ function InnovatorAuth() {
         </div>
 
         {/* Signup Form */}
-        <div className="signup-form-container">
+        <div
+          className="signup-form-container"
+          style={{ display: showSignup ? "none" : "block" }}
+        >
           <h1 className="fs-1">Sign Up Form</h1>
-          <input type="text" placeholder="Username" className="input-field mt-4" />
+          <input
+            type="text"
+            placeholder="Username"
+            className="input-field mt-4"
+          />
           <br />
           <br />
           <input type="email" placeholder="Email" className="input-field" />

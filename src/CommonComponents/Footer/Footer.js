@@ -3,6 +3,7 @@ import "./Footer.css";
 import logo from "../../Assets/logo-white.png";
 import { Container, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import Rating from '@mui/material/Rating';
 
 function Footer() {
   return (
@@ -13,7 +14,15 @@ function Footer() {
             <Col lg={4} md={4}>
               <div className="d-flex">
                 <img src={logo} className="logo-footer" alt="" />
-                <h2 className="ms-3 mt-3">Investory</h2>
+                <h2 className="mt-2 ms-3">
+                  <b>
+                    {" "}
+                    <span>
+                      {" "}
+                      Capital<span className="head2">Clue</span>
+                    </span>
+                  </b>
+                </h2>
               </div>
               <div className="mt-4">
                 1234, Silicon Valley Road, Bangalore - 560001, Karnataka, India
@@ -37,29 +46,30 @@ function Footer() {
               </div>
             </Col>
             <Col lg={1} md={0}></Col>
-            <Col lg={3} >
-             <div >
-                  <h2 className="mt-3 ">Links</h2>
-                  <Link style={{ textDecoration: "none" }} className="text-white">
-                    Home
-                  </Link>{" "}
-                  <br />
-                  <Link style={{ textDecoration: "none" }} className="text-white">
-                    About Us
-                  </Link>
-                  <br />
-                  <Link style={{ textDecoration: "none" }} className="text-white">
-                    Services
-                  </Link>
-             </div>
+            <Col lg={3}>
+              <div>
+                <h2 className="mt-3 ">Links</h2>
+                <Link style={{ textDecoration: "none" }} className="text-white">
+                  Home
+                </Link>{" "}
+                <br />
+                <Link style={{ textDecoration: "none" }} className="text-white">
+                  About Us
+                </Link>
+                <br />
+                <Link style={{ textDecoration: "none" }} className="text-white">
+                  Services
+                </Link>
+              </div>
             </Col>
-           
+
             <Col lg={4} md={4}>
-              <h2 className="mt-3 ">Contact Us</h2>
-              <input
-                type="text"
-                className="input-field w-100"
-                placeholder="Email"
+              <h2 className="mt-3 ">Feedback</h2>
+              <Rating
+              className=""
+              style={{ borderColor: 'red' }}
+                name="simple-controlled"
+              
               />
               <textarea
                 type="text"
@@ -69,7 +79,9 @@ function Footer() {
               <br />
               <div className="text-end">
                 {" "}
-                <button className="button  "><b>Submit</b></button>
+                <button className="button  ">
+                  <b>Submit</b>
+                </button>
               </div>
             </Col>
           </Row>
