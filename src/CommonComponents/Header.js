@@ -7,6 +7,7 @@ import Navbar from "react-bootstrap/Navbar";
 import "./Header.css";
 import { Link } from "react-router-dom";
 import logo from "../Assets/logo-black.png";
+import { Badge } from "react-bootstrap";
 
 function Header({ navObj }) {
   return (
@@ -41,6 +42,7 @@ function Header({ navObj }) {
                   }
                 >
                   {i.text}
+                  {i.badge&&<sup><Badge>{i.badge}</Badge></sup>}
                 </h6>
               </Link>
             ))}

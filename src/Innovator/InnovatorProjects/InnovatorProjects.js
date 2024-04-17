@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { Button, Card, Col, Container, FloatingLabel, Form, InputGroup, Modal, ProgressBar, Row } from 'react-bootstrap'
 import './InnovatorProject.css'
 import Header from '../../CommonComponents/Header';
+import { Link } from 'react-router-dom';
+import Footer from '../../CommonComponents/Footer/Footer';
 
 function InnovatorProjects() {
     const [iPreviews, setIPreviews] = useState([])
@@ -34,7 +36,7 @@ function InnovatorProjects() {
         image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCgn3Ii53eAxizXRbyO3R8Mlf-npKMr5G-_ycjbFrICg&s",
         description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae numquam quod ipsa soluta quisquam ab consequatur quos vitae exercitationem omnis molestias, laboriosam earum neque dolore, eius, corrupti quae vel ut.",
         TargetAmount: 12000000,
-        AmountRaised: 5000000,
+        AmountRaised: 2000000,
         PostedOn: "2024-03-02",
         EndsOn: "2024-08-02",
     },
@@ -69,10 +71,13 @@ function InnovatorProjects() {
         setIPreviews(tempIPreviews)
     }
     const handleRemoveVideo = (index) => {
+        console.log(index);
         let tempVPreviews = [...vPreviews]
         tempVPreviews.splice(index, 1)
+        // console.log(tempVPreviews);
         setVPreviews(tempVPreviews)
     }
+    console.log(vPreviews);
     return (
         <><div className='sticky-top'><Header /></div>
             <div className='main-div'>
@@ -91,17 +96,19 @@ function InnovatorProjects() {
                                             bulk of the card's content.
                                         </Card.Text>
 
-                                        <ProgressBar variant='success' className='striped' now={(project.AmountRaised / project.TargetAmount) * 100} label={`₹${project.AmountRaised}`} title={`₹${project.AmountRaised} / ₹${project.TargetAmount}`} />
+                                        <ProgressBar variant='success' className='striped' now={(project.AmountRaised / project.TargetAmount) * 100} label={`₹${project.AmountRaised}`} title={`₹${project.AmountRaised} / ₹${project.TargetAmount}`} data-bs-theme='dark' />
                                         <small>Target: ₹{project.TargetAmount}</small>
                                         <div className='text-end'>
-                                            <Button variant="outline-dark rounded-0 " className='ms-auto'><i className="fa-solid fa-arrow-right"></i></Button>
-
+                                            <Link to={'/innovator/project/id'}>
+                                                <Button variant="outline-dark rounded-0 " className='ms-auto'><i className="fa-solid fa-arrow-right"></i></Button>
+                                            </Link>
                                         </div>                                    </Card.Body>
                                 </Card>
                             </Col>) : "No projects"}
                     </Row>
                 </Container>
             </div>
+
             {/* Add project modal */}
             <Modal show={show} onHide={handleClose}
                 dialogClassName="modal-addproject" centered size='lg'>
@@ -158,21 +165,22 @@ function InnovatorProjects() {
                         </Col>
                         <Col sm={6} className='text-center'>
                             <h4>Videos</h4>
-                            {vPreviews?.map((i, index) => <div>
-                                <div className='w-100 border border-black mb-2 p-2 flex-flex-column' key={index}>
-                                    <Button variant='outline-dark border-0 rounded-5' onClick={() => handleRemoveVideo(index)}><i className='fa-solid fa-x' /></Button>
-                                    <video width="320" height="240" controls>
-                                        <source src={i} type="video/mp4" />
-                                        <source src={i}  type="video/webm" />
-                                        <source src={i}  type="video/ogg" />
-                                        Your browser does not support the video tag.
-                                    </video>
-                                </div>
-                            </div>)}
+                            {vPreviews?.map((i, index) =>
+                                <div key={i}>
+                                    <div className='w-100 border border-black mb-2 p-2 flex-flex-column'>
+                                        <Button variant='outline-dark border-0 rounded-5' onClick={() => handleRemoveVideo(index)}><i className='fa-solid fa-x' /></Button>
+                                        <video controls style={{ width: '100%' }}>
+                                            <source src={i} type="video/mp4" />
+                                            <source src={i} type="video/webm" />
+                                            <source src={i} type="video/ogg" />
+                                            Your browser does not support the video tag.
+                                        </video>
+                                    </div>
+                                </div>)}
 
                             <div>
                                 <label>
-                                    <input type="file" name="" id=""  accept="video/mp4,video/webm,video/ogg" onChange={e=>handleVideoUpload(e)} style={{ display: 'none' }} />
+                                    <input type="file" name="" id="" accept="video/mp4,video/webm,video/ogg" onChange={e => handleVideoUpload(e)} style={{ display: 'none' }} />
                                     <span className='btn btn-outline-dark rounded-5 p-3 mx-auto d-flex align-items-center'>
                                         <i className="fa-solid fa-plus fa-xl " />
                                     </span>
