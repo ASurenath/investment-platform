@@ -73,5 +73,6 @@ object-fit: cover;
     white-space: pre-line;
   }
   .Rating .MuiRating-iconEmpty {
-    color: red 2px solid; /* Change 'red' to the color you want */
+    color: red 2px solid; 
   }
+
