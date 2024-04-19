@@ -8,7 +8,7 @@ import "./Header.css";
 import { Link } from "react-router-dom";
 import logo from "../Assets/logo-black.png";
 import { Badge } from "react-bootstrap";
-
+import Notifications from "./Notifications/Notifications";
 function Header({ navObj }) {
   return (
     <Navbar
@@ -17,18 +17,20 @@ function Header({ navObj }) {
       style={{ minHeight: "80px", backgroundColor: "white" }}
     >
       <Container fluid className="">
-      <Link to={'/'} style={{textDecoration:'none'}}>
+        <Link to={"/"} style={{ textDecoration: "none" }}>
           <Navbar.Brand className="ms-lg-4 ms-md-3 d-flex">
-          <img className="logo-img" src={logo} alt="" />{" "}
-  
+            <img className="logo-img" src={logo} alt="" />{" "}
             <h2 className="mt-2 ms-3">
-            <b>
+              <b>
                 {" "}
-               <span> Capital<span className="head2">Clue</span></span>
-            </b>
+                <span>
+                  {" "}
+                  Capital<span className="head2">Clue</span>
+                </span>
+              </b>
             </h2>
           </Navbar.Brand>
-      </Link>
+        </Link>
         <Navbar.Toggle className="me-3" />
         <Navbar.Collapse>
           <Nav className="mx-auto my-2 my-lg-0 text-end">
@@ -42,7 +44,11 @@ function Header({ navObj }) {
                   }
                 >
                   {i.text}
-                  {i.badge&&<sup><Badge>{i.badge}</Badge></sup>}
+                  {i.badge && (
+                    <sup>
+                      <Badge>{i.badge}</Badge>
+                    </sup>
+                  )}
                 </h6>
               </Link>
             ))}
@@ -56,6 +62,7 @@ function Header({ navObj }) {
             </Button>
           </Nav>
         </Navbar.Collapse>
+        <Notifications />
       </Container>
     </Navbar>
   );
