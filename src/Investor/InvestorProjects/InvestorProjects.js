@@ -6,10 +6,10 @@ import { Link } from 'react-router-dom';
 import Footer from '../../CommonComponents/Footer/Footer';
 
 function InvestorProjects() {
-  
+
     const dummyProjects = [{
         name: 'project1 project1 project1',
-        innovator:'innovator1',
+        innovator: 'innovator1',
         image: "https://www.celoxis.com/cassets/img/pmc/project-management.png",
         description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae numquam quod ipsa soluta quisquam ab consequatur quos vitae exercitationem omnis molestias, laboriosam earum neque dolore, eius, corrupti quae vel ut.",
         TargetAmount: 12000000,
@@ -19,7 +19,7 @@ function InvestorProjects() {
     },
     {
         name: 'project2',
-        innovator:'innovator1',
+        innovator: 'innovator1',
         image: "https://s3-ap-south-1.amazonaws.com/static.awfis.com/wp-content/uploads/2017/07/07184649/ProjectManagement.jpg",
         description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae numquam quod ipsa soluta quisquam ab consequatur quos vitae exercitationem omnis molestias, laboriosam earum neque dolore, eius, corrupti quae vel ut.",
         TargetAmount: 12000000,
@@ -29,7 +29,7 @@ function InvestorProjects() {
     },
     {
         name: 'project3',
-        innovator:'innovator2',
+        innovator: 'innovator2',
         image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCgn3Ii53eAxizXRbyO3R8Mlf-npKMr5G-_ycjbFrICg&s",
         description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae numquam quod ipsa soluta quisquam ab consequatur quos vitae exercitationem omnis molestias, laboriosam earum neque dolore, eius, corrupti quae vel ut.",
         TargetAmount: 12000000,
@@ -39,7 +39,7 @@ function InvestorProjects() {
     },
     {
         name: 'project4',
-        innovator:'innovator2',
+        innovator: 'innovator2',
         image: "https://www4.instagantt.com/assets/63c5e29f1b5bc83fe0af2489/6424d753f8eb7a9e69c372fc_Gantt%20Chart%20Online%20Software%20Instagantt%20Ideation%202.webp",
         description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae numquam quod ipsa soluta quisquam ab consequatur quos vitae exercitationem omnis molestias, laboriosam earum neque dolore, eius, corrupti quae vel ut.",
         TargetAmount: 12000000,
@@ -53,7 +53,7 @@ function InvestorProjects() {
             <div className='main-div'>
                 <Container className='p-lg-5 p-2 text-center'>
                     <InputGroup size="lg" className='mb-3 w-75 mx-auto' >
-                        <Form.Control className='border border-black' placeholder='Search...'/>
+                        <Form.Control className='border border-black' placeholder='Search...' />
                         <InputGroup.Text className='border border-black'> <i className="fa-solid fa-search"></i>
                         </InputGroup.Text>
                     </InputGroup>
@@ -74,10 +74,10 @@ function InvestorProjects() {
                                         <ProgressBar variant='success' className='striped' now={(project.AmountRaised / project.TargetAmount) * 100} label={`₹${project.AmountRaised}`} title={`₹${project.AmountRaised} / ₹${project.TargetAmount}`} data-bs-theme='dark' />
                                         <small>Target: ₹{project.TargetAmount}</small>
                                         <div className='text-end'>
-<Link to={'/investor/project/id'}>
+                                            <Link to={'/investor/project/id'}>
                                                 <Button variant="outline-dark rounded-0 " className='ms-auto'><i className="fa-solid fa-arrow-right"></i></Button>
-    
-</Link>
+
+                                            </Link>
                                         </div>                                    </Card.Body>
                                 </Card>
                             </Col>) : "No projects"}
