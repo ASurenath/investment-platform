@@ -32,7 +32,13 @@ function InnovatorMessages() {
         { id: 5, type: 'received', user: 2, content: "Hello5" },
         { id: 6, type: 'sent', user: 3, content: "Hello6" },
         { id: 7, type: 'received', user: 2, content: "Longer message.Longer messageLonger messageLonger message.Longer message" },
-        { id: 8, type: 'sent', user: 2, content: "Longer message.Longer messageLonger messageLonger message.Longer message. Longer message.Longer messageLonger messageLonger message.Longer messageLonger message.Longer messageLonger messageLonger message.Longer messageLonger message.Longer messageLonger messageLonger message.Longer message" }]
+        { id: 8, type: 'sent', user: 2, content: "Longer message.Longer messageLonger messageLonger message.Longer message. Longer message.Longer messageLonger messageLonger message.Longer messageLonger message.Longer messageLonger messageLonger message.Longer messageLonger message.Longer messageLonger messageLonger message.Longer message" },
+        { id: 9, type: 'sent', user: 3, content: "Hello7" },
+        { id: 10, type: 'sent', user: 3, content: "Hello8" },
+        { id: 11, type: 'sent', user: 3, content: "Hello9" },
+        { id: 12, type: 'sent', user: 3, content: "Hello10" },
+        { id: 13, type: 'sent', user: 3, content: "Hello11" },
+        { id: 14, type: 'sent', user: 3, content: "Hello12" },]
     console.log(id);
     const handleSelectUser = (id) => {
         setSearchParams({ id })
