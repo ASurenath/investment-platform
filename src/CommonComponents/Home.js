@@ -7,6 +7,8 @@ import investment from "../Assets/Investment.jpg";
 import About from "./About";
 import Services from "./Services";
 import Reviews from "./Reviews";
+import { Link } from "react-router-dom";
+
 
 
 function Home() {
@@ -36,9 +38,11 @@ function Home() {
               discovery platform, empowering you to make informed decisions and
               maximize returns.
             </p>
-            <button className="button p-2">
-              Get Started <i class="fa-solid fa-angles-right"></i>
-            </button>
+           <Link to={'/auth'}>
+              <button className="button p-2">
+                Get Started <i class="fa-solid fa-angles-right"></i>
+              </button>
+           </Link>
           </Col>
           <Col lg={6} className="p-5">
             <img className="investment-img" src={investment} alt="" />

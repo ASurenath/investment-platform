@@ -1,5 +1,8 @@
 import axios from "axios";
 
+// const BASE_URL = process.env.BASE_URL;
+const BASE_URL ="http://127.0.0.1:8000/"
+
 const baseInstance = () => {
   const API_URL = process.env.BASE_URL;
   const headers = {
@@ -8,7 +11,7 @@ const baseInstance = () => {
   };
 
   return axios.create({
-    baseURL: [API_URL],
+    baseURL: BASE_URL,
     timeout: 5000,
     headers,
   });
@@ -26,7 +29,7 @@ const authInstance = () => {
     headers = { ...headers, Authorization: `Token ${authToken}` };
   }
   return axios.create({
-    baseURL: [API_URL],
+    baseURL: BASE_URL,
     timeout: 25000,
     headers,
   });
@@ -44,7 +47,7 @@ const MauthInstance = () => {
     headers = { ...headers, Authorization: `Token ${authToken}` };
   }
   return axios.create({
-    baseURL: [API_URL],
+    baseURL: API_URL,
     timeout: 25000,
     headers,
   });

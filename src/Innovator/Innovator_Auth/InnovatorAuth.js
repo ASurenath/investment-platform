@@ -1,99 +1,312 @@
-import React, { useState } from "react";
+import React from "react";
 import "./InnovatorAuth.css";
+import { useState } from "react";
+import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
+import { Form } from "react-bootstrap";
+import { endpoints } from "../../services/defaults";
+import useApi from "../../hooks/useApi";
+import { ToastContainer, toast, Slide } from "react-toastify";
+import { IconButton, InputAdornment } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 function InnovatorAuth() {
-  const [showSignup, setShowSignup] = useState(true);
+  const [showRegister, setShowRegister] = useState(false);
+  const [selectUserType, setSelectUserType] = useState("");
+  const { data, error, request: registerInvestor } = useApi("post");
+  const { request: login } = useApi("post");
 
-  const handleSignup = () => {
-    console.log(showSignup);
-    setShowSignup(false);
+  const [authInput, setAuthInput] = useState({
+    full_name: "",
+    username: "",
+    password: "",
+    mobile: "",
+    email: "",
+    user_type: selectUserType,
+  });
+  console.log(authInput);
+
+  const signup = () => {
+    setShowRegister(true);
   };
 
-  const handleLogin = () => {
-    console.log(showSignup);
-
-    setShowSignup(true);
+  const signIn = () => {
+    setShowRegister(false);
   };
-console.log(showSignup);
+
+  const [showPassword, setShowPassword] = React.useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
+  // handle input change
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setAuthInput({ ...authInput, [name]: value });
+  };
+
+  const checkUserType = () => {
+    return (
+      <Form.Select
+        className="user-type"
+        onChange={(e) =>
+          setAuthInput({ ...authInput, user_type: e.target.value })
+        }
+        value={authInput.user_type}
+      >
+        <option className="user-type" value="">
+          Select User Type
+        </option>
+        <option className="user-type" value="Innovator">
+          Innovator
+        </option>
+        <option className="user-type" value="Investor">
+          Investor
+        </option>
+      </Form.Select>
+    );
+  };
+
+  // ___________________________________________________________________________________________________________________________________________
+  // registration
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    console.log("function working");
+    try {
+      let apiResponse;
+      const payload = {
+        full_name: authInput.full_name,
+        username: authInput.username,
+        password: authInput.password,
+        email: authInput.email,
+        user_type: selectUserType,
+        mobile: authInput.mobile,
+      };
+      const url = `${endpoints.INVESTOR_REGISTERATION}`;
+      apiResponse = await registerInvestor(url, payload);
+      console.log(apiResponse, "response");
+
+      const { response, error } = apiResponse;
+      if (!error && response.data) {
+        console.log(response?.data, "response");
+        const responseMessage = "Registration success.!";
+        toast.success(responseMessage, {
+          position: "bottom-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          transition: Slide,
+        });
+        setAuthInput({
+          full_name: "",
+          username: "",
+          password: "",
+          mobile: "",
+          email: "",
+          user_type: "",
+        });
+      } else {
+        // console.log(error.response.data, "error");
+        const errorMessage =
+          error.response.data || "Error occurred while registering.";
+        console.log(errorMessage);
+        toast.error(
+          ...(errorMessage.username ||
+            errorMessage.email ||errorMessage.password|| ["Mobile number should be a valid integer" ]
+            ),
+          {
+            position: "bottom-center",
+            autoClose: 1500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            transition: Slide,
+          }
+        );
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // ___________________________________________________________________________________________________________________________________________
+  // login
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      let apiResponse;
+      const payload = {
+        username: authInput.username,
+        password: authInput.password,
+      };
+      const url = `${endpoints.LOGIN}`;
+      apiResponse = await login(url, payload);
+      console.log(apiResponse);
+      const { response, error } = apiResponse;
+      if (!error && response.data) {
+        const responseMessage = response?.data?.message || "Login Success";
+        toast.success(responseMessage, {
+          position: "bottom-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          transition: Slide,
+        });
+      } else {
+        console.log(error.response.data.message);
+        const responseMessage =
+          error?.response?.data?.dh || "Incoorect Username or Password";
+        toast.error(responseMessage, {
+          position: "bottom-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          transition: Slide,
+        });
+      }
+    } catch (error) {}
+  };
 
   return (
-    <div className="cont">
-      <div className="box-1">
-        <div className="content-holder">
-          {showSignup ? (
-            <>
-              <h3 className="fs-1">Don't have an account?</h3>
-              <h4 className="fs-3">Please Sign up!</h4>
-              <button className="button-1" onClick={handleSignup}>
-                Sign up
-              </button>
-            </>
-          ) : (
-            <>
-              <h3 className="fs-1">If you already have an account,</h3>
-              <h4 className="fs-3">just sign in</h4>
-              <button className="button-1 " onClick={handleLogin}>
+    <div className="container auth-body">
+      <div className="slider">
+        {showRegister ? (
+          <form className="form">
+            <span className="title">Sign Up</span>
+            <div className="form_control">
+              <input
+                type="text"
+                className="input"
+                required
+                name="full_name"
+                value={authInput.full_name}
+                onChange={handleInputChange}
+              />
+              <label className="label">Full Name</label>
+            </div>
+            <div className="form_control">
+              <input
+                type="text"
+                className="input"
+                required
+                name="username"
+                value={authInput.username}
+                onChange={handleInputChange}
+              />
+              <label className="label">Username</label>
+            </div>
+            <div className="form_control">
+              <input
+                type="tel"
+                className="input"
+                name="mobile"
+                value={authInput.mobile}
+                onChange={handleInputChange}
+                required
+              />
+              <label className="label">Phone</label>
+            </div>
+            <div className="form_control">
+              <input
+                type="email"
+                className="input"
+                name="email"
+                value={authInput.email}
+                onChange={handleInputChange}
+                required
+              />
+              <label className="label">Email</label>
+            </div>
+            <div className="form_control">
+              <input
+                className="input"
+                name="password"
+                value={authInput.password}
+                onChange={handleInputChange}
+                required
+                type={showPassword ? "text" : "password"}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+              />
+
+              <label className="label">Password</label>
+            </div>
+            <div className="form_control">{checkUserType()}</div>
+
+            <button onClick={(e) => handleRegister(e)}>Sign Up</button>
+            <span className="bottom_text">
+              Already have an account?{" "}
+              <label
+                htmlFor="register_toggle"
+                onClick={signIn}
+                className="switch"
+              >
                 Sign In
-              </button>
-            </>
-          )}
-        </div>
+              </label>
+            </span>
+          </form>
+        ) : (
+          <form className="form">
+            <span className="title">Login</span>
+            <div className="form_control">
+              <input
+                type="text"
+                name="username"
+                className="input"
+                value={authInput.username}
+                onChange={handleInputChange}
+                required
+              />
+              <label className="label">Username</label>
+            </div>
+            <div className="form_control">
+              <input
+                name="password"
+                type="password"
+                className="input"
+                value={authInput.password}
+                onChange={handleInputChange}
+                required
+              />
+              <label className="label">Password</label>
+            </div>
+            <button onClick={(e) => handleLogin(e)}>Login</button>
+            <span className="bottom_text" onClick={signup}>
+              Don't have an account?{" "}
+              <label htmlFor="register_toggle" className="switch">
+                Sign Up
+              </label>
+            </span>
+          </form>
+        )}
       </div>
-
-      <div className="box-2">
-        {/* Login Form */}
-        <div
-          className="login-form-container"
-          style={{ display: showSignup ? "block" : "none" }}
-        >
-          <h1 className="fs-1">Login Form</h1>
-          <input
-            type="text"
-            placeholder="Username"
-            className="input-field mt-4"
-          />
-          <br />
-          <br />
-          <input
-            type="password"
-            placeholder="Password"
-            className="input-field"
-          />
-          <br />
-          <br />
-          <button className="login-button" onClick={handleLogin}>
-            Sign In
-          </button>
-        </div>
-
-        {/* Signup Form */}
-        <div
-          className="signup-form-container"
-          style={{ display: showSignup ? "none" : "block" }}
-        >
-          <h1 className="fs-1">Sign Up Form</h1>
-          <input
-            type="text"
-            placeholder="Username"
-            className="input-field mt-4"
-          />
-          <br />
-          <br />
-          <input type="email" placeholder="Email" className="input-field" />
-          <br />
-          <br />
-          <input
-            type="password"
-            placeholder="Password"
-            className="input-field"
-          />
-          <br />
-          <br />
-          <button className="signup-button" onClick={handleSignup}>
-            Sign Up
-          </button>
-        </div>
-      </div>
+      <ToastContainer />
     </div>
   );
 }

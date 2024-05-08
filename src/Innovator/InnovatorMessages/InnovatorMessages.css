@@ -1,16 +1,15 @@
 .msg-grid{
     display: grid;
     grid-template-columns: 1fr 3fr;
-    height: calc( 95vh - 80px );
-    border-radius: 20px;
+    height: calc( 100vh - 80px );
 }
 .msg-left{
-    border-radius: 20px;
+    /* border-radius: 20px; */
     overflow-y: auto;
     max-height: 100%;
 }
 .msg-right{
-    border-radius: 20px;
+    /* border-radius: 20px; */
     /* overflow-y: auto; */
     max-height: 100%;
 
@@ -24,7 +23,7 @@
   .msg-input{
     resize: none;
     text-wrap: wrap;
-    border-top-left-radius: 20px !important;
+    /* border-top-left-radius: 20px !important; */
     padding: 20px;
   }
   .msg-input-box{
@@ -35,7 +34,7 @@
     box-sizing: border-box;
   }
   .msg-input-box .btn{
-    border-top-right-radius: 20px !important;
+    /* border-top-right-radius: 20px !important; */
   }
  .msg-container{
     width: 100%;
