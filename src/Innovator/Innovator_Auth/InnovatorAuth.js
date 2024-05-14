@@ -8,12 +8,16 @@ import useApi from "../../hooks/useApi";
 import { ToastContainer, toast, Slide } from "react-toastify";
 import { IconButton, InputAdornment } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 
 function InnovatorAuth() {
   const [showRegister, setShowRegister] = useState(false);
   const [selectUserType, setSelectUserType] = useState("");
   const { data, error, request: registerInvestor } = useApi("post");
+  const { request: registerInnovator } = useApi("post");
   const { request: login } = useApi("post");
+
+  const navigate = useNavigate();
 
   const [authInput, setAuthInput] = useState({
     full_name: "",
@@ -21,7 +25,6 @@ function InnovatorAuth() {
     password: "",
     mobile: "",
     email: "",
-    user_type: selectUserType,
   });
   console.log(authInput);
 
@@ -48,21 +51,21 @@ function InnovatorAuth() {
   };
 
   const checkUserType = () => {
+    console.log(selectUserType.user_type);
     return (
       <Form.Select
         className="user-type"
         onChange={(e) =>
-          setAuthInput({ ...authInput, user_type: e.target.value })
+          setSelectUserType({ ...selectUserType, user_type: e.target.value })
         }
-        value={authInput.user_type}
       >
-        <option className="user-type" value="">
+        <option className="" value="">
           Select User Type
         </option>
-        <option className="user-type" value="Innovator">
+        <option className="" value="Innovator">
           Innovator
         </option>
-        <option className="user-type" value="Investor">
+        <option className="" value="Investor">
           Investor
         </option>
       </Form.Select>
@@ -81,13 +84,17 @@ function InnovatorAuth() {
         username: authInput.username,
         password: authInput.password,
         email: authInput.email,
-        user_type: selectUserType,
         mobile: authInput.mobile,
       };
-      const url = `${endpoints.INVESTOR_REGISTERATION}`;
-      apiResponse = await registerInvestor(url, payload);
-      console.log(apiResponse, "response");
-
+      if (selectUserType.user_type === "Investor") {
+        const url = `${endpoints.INVESTOR_REGISTERATION}`;
+        apiResponse = await registerInvestor(url, payload);
+        console.log(apiResponse, "response");
+      } else {
+        const url = `${endpoints.INNOVATOR_REGISTRATION}`;
+        apiResponse = await registerInnovator(url, payload);
+        console.log(apiResponse, "response");
+      }
       const { response, error } = apiResponse;
       if (!error && response.data) {
         console.log(response?.data, "response");
@@ -111,6 +118,7 @@ function InnovatorAuth() {
           email: "",
           user_type: "",
         });
+        setShowRegister(false);
       } else {
         // console.log(error.response.data, "error");
         const errorMessage =
@@ -118,8 +126,9 @@ function InnovatorAuth() {
         console.log(errorMessage);
         toast.error(
           ...(errorMessage.username ||
-            errorMessage.email ||errorMessage.password|| ["Mobile number should be a valid integer" ]
-            ),
+            errorMessage.email ||
+            errorMessage.password ||
+            errorMessage.full_name),
           {
             position: "bottom-center",
             autoClose: 1500,
@@ -165,10 +174,18 @@ function InnovatorAuth() {
           theme: "dark",
           transition: Slide,
         });
+        console.log(response.data.data);
+        if (response.data.data.is_innovator) {
+          navigate("/innovator/home");
+        } else {
+          navigate("/");
+        }
+
+        localStorage.setItem("consttoken", response.data.token);
       } else {
         console.log(error.response.data.message);
         const responseMessage =
-          error?.response?.data?.dh || "Incoorect Username or Password";
+          error?.response?.data?.dh || "Incorrect Username or Password";
         toast.error(responseMessage, {
           position: "bottom-center",
           autoClose: 3000,

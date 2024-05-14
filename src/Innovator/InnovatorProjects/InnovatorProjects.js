@@ -1,152 +1,322 @@
-import React, { useState } from 'react'
-import { Button, Card, Col, Container, FloatingLabel, Form, InputGroup, Modal, ProgressBar, Row } from 'react-bootstrap'
-import './InnovatorProject.css'
-import Header from '../../CommonComponents/Header';
-import { Link } from 'react-router-dom';
-import Footer from '../../CommonComponents/Footer/Footer';
+import React, { useEffect, useState } from "react";
+import {
+  Button,
+  Card,
+  Col,
+  Container,
+  FloatingLabel,
+  Form,
+  InputGroup,
+  Modal,
+  ProgressBar,
+  Row,
+} from "react-bootstrap";
+import "./InnovatorProject.css";
+import Header from "../../CommonComponents/Header";
+import { Link } from "react-router-dom";
+import Footer from "../../CommonComponents/Footer/Footer";
+import useApi from "../../hooks/useApi";
+import { endpoints } from "../../services/defaults";
 
 function InnovatorProjects() {
-    const [iPreviews, setIPreviews] = useState([])
-    console.log(iPreviews);
-    const [vPreviews, setVPreviews] = useState([])
-    const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
-    const uploadImage = "https://static.vecteezy.com/system/resources/thumbnails/002/058/031/small_2x/picture-icon-photo-symbol-illustration-for-web-and-mobil-app-on-grey-background-free-vector.jpg"
-    const dummyProjects = [{
-        name: 'project1 project1 project1',
-        image: "https://www.celoxis.com/cassets/img/pmc/project-management.png",
-        description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae numquam quod ipsa soluta quisquam ab consequatur quos vitae exercitationem omnis molestias, laboriosam earum neque dolore, eius, corrupti quae vel ut.",
-        TargetAmount: 12000000,
-        AmountRaised: 500000,
-        PostedOn: "2024-03-02",
-        EndsOn: "2024-08-02",
+  const [iPreviews, setIPreviews] = useState([]);
+  console.log(iPreviews);
+  const [vPreviews, setVPreviews] = useState([]);
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const [selectCategory, setSelectCategory] = useState("");
+  const [cat, setCat] = useState([]);
+  const { request: getCategory } = useApi("get");
+  const token = localStorage.getItem("token");
+  const header = {
+    Authorization: `Token ${token}`,
+  };
+
+  const [projectData, setProjectData] = useState({
+    project_name: "",
+    description: "",
+    amount: "",
+    category: selectCategory,
+    end_date: "",
+    image: "",
+  });
+
+  console.log(projectData);
+
+  const uploadImage =
+    "https://static.vecteezy.com/system/resources/thumbnails/002/058/031/small_2x/picture-icon-photo-symbol-illustration-for-web-and-mobil-app-on-grey-background-free-vector.jpg";
+
+  const dummyProjects = [
+    {
+      name: "project1 project1 project1",
+      image: "https://www.celoxis.com/cassets/img/pmc/project-management.png",
+      description:
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae numquam quod ipsa soluta quisquam ab consequatur quos vitae exercitationem omnis molestias, laboriosam earum neque dolore, eius, corrupti quae vel ut.",
+      TargetAmount: 12000000,
+      AmountRaised: 500000,
+      PostedOn: "2024-03-02",
+      EndsOn: "2024-08-02",
     },
     {
-        name: 'project2',
-        image: "https://s3-ap-south-1.amazonaws.com/static.awfis.com/wp-content/uploads/2017/07/07184649/ProjectManagement.jpg",
-        description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae numquam quod ipsa soluta quisquam ab consequatur quos vitae exercitationem omnis molestias, laboriosam earum neque dolore, eius, corrupti quae vel ut.",
-        TargetAmount: 12000000,
-        AmountRaised: 5000000,
-        PostedOn: "2024-03-02",
-        EndsOn: "2024-08-02",
+      name: "project2",
+      image:
+        "https://s3-ap-south-1.amazonaws.com/static.awfis.com/wp-content/uploads/2017/07/07184649/ProjectManagement.jpg",
+      description:
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae numquam quod ipsa soluta quisquam ab consequatur quos vitae exercitationem omnis molestias, laboriosam earum neque dolore, eius, corrupti quae vel ut.",
+      TargetAmount: 12000000,
+      AmountRaised: 5000000,
+      PostedOn: "2024-03-02",
+      EndsOn: "2024-08-02",
     },
     {
-        name: 'project3',
-        image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCgn3Ii53eAxizXRbyO3R8Mlf-npKMr5G-_ycjbFrICg&s",
-        description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae numquam quod ipsa soluta quisquam ab consequatur quos vitae exercitationem omnis molestias, laboriosam earum neque dolore, eius, corrupti quae vel ut.",
-        TargetAmount: 12000000,
-        AmountRaised: 2000000,
-        PostedOn: "2024-03-02",
-        EndsOn: "2024-08-02",
+      name: "project3",
+      image:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCgn3Ii53eAxizXRbyO3R8Mlf-npKMr5G-_ycjbFrICg&s",
+      description:
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae numquam quod ipsa soluta quisquam ab consequatur quos vitae exercitationem omnis molestias, laboriosam earum neque dolore, eius, corrupti quae vel ut.",
+      TargetAmount: 12000000,
+      AmountRaised: 2000000,
+      PostedOn: "2024-03-02",
+      EndsOn: "2024-08-02",
     },
     {
-        name: 'project4',
-        image: "https://www4.instagantt.com/assets/63c5e29f1b5bc83fe0af2489/6424d753f8eb7a9e69c372fc_Gantt%20Chart%20Online%20Software%20Instagantt%20Ideation%202.webp",
-        description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae numquam quod ipsa soluta quisquam ab consequatur quos vitae exercitationem omnis molestias, laboriosam earum neque dolore, eius, corrupti quae vel ut.",
-        TargetAmount: 12000000,
-        AmountRaised: 5000000,
-        PostedOn: "2024-03-02",
-        EndsOn: "2024-08-02",
-    }]
-    const handleVideoUpload = (e) => {
-        console.log("step1");
-        let video = e.target.files[0]
-        if (video) {
-            console.log("step2");
-            setVPreviews([...vPreviews, URL.createObjectURL(video)])
-        }
+      name: "project4",
+      image:
+        "https://www4.instagantt.com/assets/63c5e29f1b5bc83fe0af2489/6424d753f8eb7a9e69c372fc_Gantt%20Chart%20Online%20Software%20Instagantt%20Ideation%202.webp",
+      description:
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae numquam quod ipsa soluta quisquam ab consequatur quos vitae exercitationem omnis molestias, laboriosam earum neque dolore, eius, corrupti quae vel ut.",
+      TargetAmount: 12000000,
+      AmountRaised: 5000000,
+      PostedOn: "2024-03-02",
+      EndsOn: "2024-08-02",
+    },
+  ];
+
+  // const handleVideoUpload = (e) => {
+  //     console.log("step1");
+  //     let video = e.target.files[0]
+  //     if (video) {
+  //         console.log("step2");
+  //         setVPreviews([...vPreviews, URL.createObjectURL(video)])
+  //     }
+  // }
+  // const handleImageUpload = (e) => {
+  //     console.log("step1");
+  //     let image = e.target.files[0]
+  //     if (image) {
+  //         console.log("step2");
+  //         setIPreviews([...iPreviews, URL.createObjectURL(image)])
+  //     }
+  // }
+  // const handleRemoveImage = (index) => {
+  //     let tempIPreviews = [...iPreviews]
+  //     tempIPreviews.splice(index, 1)
+  //     setIPreviews(tempIPreviews)
+  // }
+  // const handleRemoveVideo = (index) => {
+  //     console.log(index);
+  //     let tempVPreviews = [...vPreviews]
+  //     tempVPreviews.splice(index, 1)
+  //     // console.log(tempVPreviews);
+  //     setVPreviews(tempVPreviews)
+  // }
+
+  const handleInput = (e) => {
+    const { name, value } = e.target;
+    setProjectData({ ...projectData, [name]: value });
+  };
+
+  const getCategories = async () => {
+    try {
+      let apiResponse;
+      const url = `${endpoints.GET_CATEGORY}`;
+      apiResponse = await getCategory(url);
+      const { response, error } = apiResponse;
+      console.log(response.data);
+      if (!error && response.data) {
+        setCat(response.data);
+      }
+    } catch (error) {
+      console.log(error);
     }
-    const handleImageUpload = (e) => {
-        console.log("step1");
-        let image = e.target.files[0]
-        if (image) {
-            console.log("step2");
-            setIPreviews([...iPreviews, URL.createObjectURL(image)])
-        }
-    }
-    const handleRemoveImage = (index) => {
-        let tempIPreviews = [...iPreviews]
-        tempIPreviews.splice(index, 1)
-        setIPreviews(tempIPreviews)
-    }
-    const handleRemoveVideo = (index) => {
-        console.log(index);
-        let tempVPreviews = [...vPreviews]
-        tempVPreviews.splice(index, 1)
-        // console.log(tempVPreviews);
-        setVPreviews(tempVPreviews)
-    }
-    console.log(vPreviews);
+  };
+
+  useEffect(() => {
+    getCategories();
+  }, []);
+
+  const category = () => {
     return (
-        <><div className='sticky-top'><Header /></div>
-            <div className='main-div'>
-                <Container className='p-lg-5 p-2 text-center'>
-                    <Button onClick={handleShow} variant="outline-dark rounded-0 py-3 px-4" className='mx-auto d-flex align-items-center'><span className='hidden'>Add a project&nbsp;&nbsp;&nbsp;&nbsp;</span> <i className="fa-solid fa-plus fa-xl "></i></Button>
+      <Form.Select
+        className=""
+        onChange={(e) =>
+          setSelectCategory({ ...selectCategory, category: e.target.value })
+        }
+      >
+        <option className="text-black" value="" style={{ color: "white" }}>
+          Select Category
+        </option>
+        {cat && cat.length > 0 ? (
+          cat.map((i) => <option  value={i.c_name}>{i.c_name}</option>)
+        ) : (
+          <></>
+        )}
+      </Form.Select>
+    );
+  };
 
-                    <Row>
-                        {dummyProjects.length > 0 ? dummyProjects.map((project, index) =>
-                            <Col lg={4} sm={6} className='p-3' key={index}>
-                                <Card className='rounded-0 border-0 text-black grey-card' >
-                                    <Card.Img src={project.image} className='project-image rounded-0 m-0' />
-                                    <Card.Body className='m-0'>
-                                        <h3 className='project-title bg-white py-3 text-center mx-auto'>{project.name}</h3>
-                                        <Card.Text>
-                                            Some quick example text to build on the card title and make up the
-                                            bulk of the card's content.
-                                        </Card.Text>
+  return (
+    <>
+      <div className="sticky-top">
+        <Header />
+      </div>
+      <div className="main-div">
+        <Container className="p-lg-5 p-2 text-center">
+          <Button
+            onClick={handleShow}
+            variant="outline-dark rounded-0 py-3 px-4"
+            className="mx-auto d-flex align-items-center"
+          >
+            <span className="hidden">
+              Add a project&nbsp;&nbsp;&nbsp;&nbsp;
+            </span>{" "}
+            <i className="fa-solid fa-plus fa-xl "></i>
+          </Button>
 
-                                        <ProgressBar variant='success' className='striped' now={(project.AmountRaised / project.TargetAmount) * 100} label={`₹${project.AmountRaised}`} title={`₹${project.AmountRaised} / ₹${project.TargetAmount}`} data-bs-theme='dark' />
-                                        <small>Target: ₹{project.TargetAmount}</small>
-                                        <div className='text-end'>
-                                            <Link to={'/innovator/project/id'}>
-                                                <Button variant="outline-dark rounded-0 " className='ms-auto'><i className="fa-solid fa-arrow-right"></i></Button>
-                                            </Link>
-                                        </div>                                    </Card.Body>
-                                </Card>
-                            </Col>) : "No projects"}
-                    </Row>
-                </Container>
+          <Row>
+            {dummyProjects.length > 0
+              ? dummyProjects.map((project, index) => (
+                  <Col lg={4} sm={6} className="p-3" key={index}>
+                    <Card className="rounded-0 border-0 text-black grey-card">
+                      <Card.Img
+                        src={project.image}
+                        className="project-image rounded-0 m-0"
+                      />
+                      <Card.Body className="m-0">
+                        <h3 className="project-title bg-white py-3 text-center mx-auto">
+                          {project.name}
+                        </h3>
+                        <Card.Text>
+                          Some quick example text to build on the card title and
+                          make up the bulk of the card's content.
+                        </Card.Text>
+                        <ProgressBar
+                          variant="success"
+                          className="striped"
+                          now={
+                            (project.AmountRaised / project.TargetAmount) * 100
+                          }
+                          label={`₹${project.AmountRaised}`}
+                          title={`₹${project.AmountRaised} / ₹${project.TargetAmount}`}
+                          data-bs-theme="dark"
+                        />
+                        <small>Target: ₹{project.TargetAmount}</small>
+                        <div className="text-end">
+                          <Link to={"/innovator/project/id"}>
+                            <Button
+                              variant="outline-dark rounded-0 "
+                              className="ms-auto"
+                            >
+                              <i className="fa-solid fa-arrow-right"></i>
+                            </Button>
+                          </Link>
+                        </div>{" "}
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                ))
+              : "No projects"}
+          </Row>
+        </Container>
+      </div>
+
+      {/* Add project modal */}
+      <Modal
+        show={show}
+        onHide={handleClose}
+        dialogClassName="modal-addproject"
+        centered
+        size="lg"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Add a new project</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="px-lg-5">
+          <div>
+            <div className="text-center w-100">
+              <label style={{ cursor: "pointer" }}>
+                <input
+                  type="file"
+                  name=""
+                  id=""
+                  accept="image/.png,image/.jpg"
+                  style={{ display: "none" }}
+                />
+                <img
+                  src={uploadImage}
+                  alt="Cover Image Upload"
+                  height={200}
+                  className="border border-black p-3"
+                />
+                <p>Cover image (png / jpg)</p>
+              </label>
             </div>
-
-            {/* Add project modal */}
-            <Modal show={show} onHide={handleClose}
-                dialogClassName="modal-addproject" centered size='lg'>
-                <Modal.Header closeButton>
-                    <Modal.Title>Add a new project</Modal.Title>
-                </Modal.Header>
-                <Modal.Body className='px-lg-5'>
-                    <div>
-                        <div className='text-center w-100'>
-                            <label style={{ cursor: 'pointer' }} >
-                                <input type="file" name="" id="" accept='image/.png,image/.jpg' style={{ display: 'none' }} />
-                                <img src={uploadImage} alt="Cover Image Upload" height={200} className='border border-black p-3' />
-                                <p>Cover image (png / jpg)</p>
-                            </label></div>
-                        <FloatingLabel label="Project name" className="mb-3">
-                            <Form.Control type="text" placeholder="Project name" maxLength={35} className='border-black' />
-                        </FloatingLabel>
-                        <FloatingLabel label="Description" className="mb-3">
-                            <Form.Control as="textarea" placeholder="Description" className='border-black' style={{ height: '100px' }} />
-                        </FloatingLabel>
-                        <Row>
-                            <Col sm={6}>
-                                <InputGroup className="mb-3">
-                                    <InputGroup.Text className='border-black'>₹</InputGroup.Text>
-                                    <FloatingLabel label="Target amount">
-                                        <Form.Control type="number" placeholder="Target amount" className='border-black' />
-                                    </FloatingLabel>
-                                </InputGroup>
-                            </Col>
-                            <Col sm={6}>
-                                <FloatingLabel label="End date" className='mb-3'>
-                                    <Form.Control type="date" placeholder="End date" className='border-black' />
-                                </FloatingLabel>
-                            </Col>
-                        </Row>
-                    </div>
-                    <hr />
-                    <Row>
+            <FloatingLabel label="Project name" className="mb-3">
+              <Form.Control
+                name="project_name"
+                value={projectData.project_name}
+                type="text"
+                placeholder="Project name"
+                maxLength={35}
+                className="border-black"
+                onChange={handleInput}
+              />
+            </FloatingLabel>
+            <FloatingLabel label="Description" className="mb-3">
+              <Form.Control
+                name="description"
+                value={projectData.description}
+                onChange={handleInput}
+                as="textarea"
+                placeholder="Description"
+                className="border-black"
+                style={{ height: "100px" }}
+              />
+            </FloatingLabel>
+            <Row>
+              <Col sm={6}>
+                <InputGroup className="mb-3">
+                  <InputGroup.Text className="border-black">₹</InputGroup.Text>
+                  <FloatingLabel label="Target amount">
+                    <Form.Control
+                      name="amount"
+                      value={projectData.amount}
+                      onChange={handleInput}
+                      type="number"
+                      placeholder="Target amount"
+                      className="border-black"
+                    />
+                  </FloatingLabel>
+                </InputGroup>
+              </Col>
+              <Col sm={6}>
+                <FloatingLabel label="End date" className="mb-3">
+                  <Form.Control
+                    name="end_date"
+                    value={projectData.end_date}
+                    onChange={handleInput}
+                    type="date"
+                    placeholder="End date"
+                    className="border-black"
+                  />
+                </FloatingLabel>
+              </Col>
+            </Row>
+            <div>{category()}</div>
+          </div>
+          <hr />
+          {/* <Row>
                         <Col sm={6} className='text-center'>
                             <h4>Images</h4>
                             {iPreviews?.map((i, index) => <div>
@@ -187,19 +357,19 @@ function InnovatorProjects() {
                                 </label>
                             </div>
                         </Col>
-                    </Row>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="dark" onClick={handleClose}>
-                        Close
-                    </Button>
-                    <Button variant="outline-dark" onClick={handleClose}>
-                        Save Changes
-                    </Button>
-                </Modal.Footer>
-            </Modal>
-        </>
-    )
+                    </Row> */}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="dark" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="outline-dark" onClick={handleClose}>
+            Save Changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
+  );
 }
 
-export default InnovatorProjects
+export default InnovatorProjects;

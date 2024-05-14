@@ -54,12 +54,14 @@ function Header({ navObj }) {
             ))}
           </Nav>
           <Nav>
-            <Button
-              variant="dark rounded-5 me-lg-5 me-md-3 ms-auto"
-              style={{ width: "fit-content", marginLeft: "auto" }}
-            >
-              Logout
-            </Button>
+           <Link to={'/auth'}>
+              <Button
+                variant="dark rounded-5 me-lg-5 me-md-3 ms-auto"
+                style={{ width: "fit-content", marginLeft: "auto" }}
+              >
+                Logout
+              </Button>
+           </Link>
           </Nav>
         </Navbar.Collapse>
         <Notifications />

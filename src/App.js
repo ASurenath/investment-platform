@@ -9,6 +9,7 @@ import ProjectView from './Innovator/InnovatorProjects/ProjectView';
 import InvestorProjects from './Investor/InvestorProjects/InvestorProjects';
 import InvestorProjectView from './Investor/InvestorProjects/InvestorProjectView';
 import InnovatorMessages from './Innovator/InnovatorMessages/InnovatorMessages';
+import InnovatorHome from './Innovator/InnovatorHome/InnovatorHome';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path='/innovator/profile-edit' element={<InnovatorProfileEdit />}></Route>
         <Route path='/innovator/projects' element={<InnovatorProjects />}></Route>
         <Route path='/innovator/messages' element={<InnovatorMessages />}></Route>
+        <Route path='/innovator/home' element={<InnovatorHome/>}></Route>
         {/* Investor */}
         <Route path='/innovator/project/id' element={<ProjectView />}></Route>
         <Route path='/investor/projects' element={<InvestorProjects />}></Route>
