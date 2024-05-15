@@ -19,7 +19,7 @@ const baseInstance = () => {
 
 const authInstance = () => {
   const API_URL = process.env.BASE_URL;
-  const authToken = sessionStorage.getItem("token");
+  const authToken = localStorage.getItem("token");
   let headers = {
     "Content-Type": "application/json",
     Accept: "application/json",
@@ -37,7 +37,7 @@ const authInstance = () => {
 
 const MauthInstance = () => {
   const API_URL = process.env.BASE_URL;
-  const authToken = sessionStorage.getItem("token");
+  const authToken = localStorage.getItem("token");
   let headers = {
     "Content-Type": "multipart/form-data",
     Accept: "application/json",
@@ -47,7 +47,7 @@ const MauthInstance = () => {
     headers = { ...headers, Authorization: `Token ${authToken}` };
   }
   return axios.create({
-    baseURL: API_URL,
+    baseURL: BASE_URL,
     timeout: 25000,
     headers,
   });

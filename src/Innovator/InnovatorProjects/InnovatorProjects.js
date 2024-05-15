@@ -14,7 +14,6 @@ import {
 import "./InnovatorProject.css";
 import Header from "../../CommonComponents/Header";
 import { Link } from "react-router-dom";
-import Footer from "../../CommonComponents/Footer/Footer";
 import useApi from "../../hooks/useApi";
 import { endpoints } from "../../services/defaults";
 
@@ -28,19 +27,21 @@ function InnovatorProjects() {
   const [selectCategory, setSelectCategory] = useState("");
   const [cat, setCat] = useState([]);
   const { request: getCategory } = useApi("get");
-  const token = localStorage.getItem("token");
-  const header = {
-    Authorization: `Token ${token}`,
-  };
+  const { request: addProjects } = useApi("mPost");
 
+  const [photo, setPhoto] = useState(null);
   const [projectData, setProjectData] = useState({
     project_name: "",
     description: "",
     amount: "",
-    category: selectCategory,
+    category: "",
     end_date: "",
     image: "",
   });
+  const token = localStorage.getItem("token");
+  const header = {
+    Authorization: `Token ${token}`,
+  };
 
   console.log(projectData);
 
@@ -142,6 +143,26 @@ function InnovatorProjects() {
     }
   };
 
+  const addProject=async()=>{
+   const formData=new FormData();
+   formData.append("project_name",projectData.project_name);
+   formData.append("description",projectData.description);
+  formData.append("amount",projectData.amount)
+  formData.append("end_date",projectData.end_date)
+  formData.append("image",projectData.image)
+  formData.append("category",projectData.category)
+
+  try {
+    let apiResponse;
+    const url = `${endpoints.ADD_PROJECT}`;
+    apiResponse = await addProjects(url,formData) 
+    console.log(apiResponse);
+  } catch (error) {
+   console.log(error); 
+  }
+  }
+
+
   useEffect(() => {
     getCategories();
   }, []);
@@ -151,19 +172,33 @@ function InnovatorProjects() {
       <Form.Select
         className=""
         onChange={(e) =>
-          setSelectCategory({ ...selectCategory, category: e.target.value })
+          setProjectData({ ...projectData, category: e.target.value })
         }
       >
         <option className="text-black" value="" style={{ color: "white" }}>
           Select Category
         </option>
         {cat && cat.length > 0 ? (
-          cat.map((i) => <option  value={i.c_name}>{i.c_name}</option>)
+          cat.map((i) => (
+            <option key={i.c_name} value={i.id}>
+              {i.c_name}
+            </option>
+          ))
         ) : (
           <></>
         )}
       </Form.Select>
     );
+  };
+
+  const handleImage = async (e) => {
+    const file = e.target.files[0];
+    setPhoto(file);
+    console.log(photo);
+    setProjectData((prevDetails) => ({
+      ...prevDetails,
+      image: file,
+    }));
   };
 
   return (
@@ -248,16 +283,15 @@ function InnovatorProjects() {
               <label style={{ cursor: "pointer" }}>
                 <input
                   type="file"
-                  name=""
-                  id=""
-                  accept="image/.png,image/.jpg"
                   style={{ display: "none" }}
+                  onChange={(e) => handleImage(e)}
                 />
                 <img
-                  src={uploadImage}
+                  src={photo ? URL.createObjectURL(photo) : uploadImage}
                   alt="Cover Image Upload"
                   height={200}
                   className="border border-black p-3"
+                  required
                 />
                 <p>Cover image (png / jpg)</p>
               </label>
@@ -363,8 +397,8 @@ function InnovatorProjects() {
           <Button variant="dark" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="outline-dark" onClick={handleClose}>
-            Save Changes
+          <Button variant="outline-dark" onClick={addProject}>
+            Add 
           </Button>
         </Modal.Footer>
       </Modal>

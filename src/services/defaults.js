@@ -12,6 +12,7 @@ export const endpoints = {
   // Innovator
 
   INNOVATOR_REGISTRATION:`innovator/register/`,
-  GET_CATEGORY:`category/`
+  GET_CATEGORY:`category/`,
+  ADD_PROJECT:`project/`
 
 };

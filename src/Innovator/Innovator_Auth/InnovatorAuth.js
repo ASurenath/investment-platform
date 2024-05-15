@@ -116,7 +116,6 @@ function InnovatorAuth() {
           password: "",
           mobile: "",
           email: "",
-          user_type: "",
         });
         setShowRegister(false);
       } else {
@@ -181,7 +180,7 @@ function InnovatorAuth() {
           navigate("/");
         }
 
-        localStorage.setItem("consttoken", response.data.token);
+        localStorage.setItem("token", response.data.token);
       } else {
         console.log(error.response.data.message);
         const responseMessage =
