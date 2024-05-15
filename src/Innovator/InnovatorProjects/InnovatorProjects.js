@@ -16,6 +16,7 @@ import Header from "../../CommonComponents/Header";
 import { Link } from "react-router-dom";
 import useApi from "../../hooks/useApi";
 import { endpoints } from "../../services/defaults";
+import Select from "react-select";
 
 function InnovatorProjects() {
   const [iPreviews, setIPreviews] = useState([]);
@@ -143,53 +144,57 @@ function InnovatorProjects() {
     }
   };
 
-  const addProject=async()=>{
-   const formData=new FormData();
-   formData.append("project_name",projectData.project_name);
-   formData.append("description",projectData.description);
-  formData.append("amount",projectData.amount)
-  formData.append("end_date",projectData.end_date)
-  formData.append("image",projectData.image)
-  formData.append("category",projectData.category)
+  const addProject = async () => {
+    const formData = new FormData();
+    formData.append("project_name", projectData.project_name);
+    formData.append("description", projectData.description);
+    formData.append("amount", projectData.amount);
+    formData.append("end_date", projectData.end_date);
+    formData.append("image", projectData.image);
+    formData.append("category", projectData.category);
 
-  try {
-    let apiResponse;
-    const url = `${endpoints.ADD_PROJECT}`;
-    apiResponse = await addProjects(url,formData) 
-    console.log(apiResponse);
-  } catch (error) {
-   console.log(error); 
-  }
-  }
-
+    try {
+      let apiResponse;
+      const url = `${endpoints.ADD_PROJECT}`;
+      apiResponse = await addProjects(url, formData);
+      console.log(apiResponse);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     getCategories();
   }, []);
 
-  const category = () => {
-    return (
-      <Form.Select
-        className=""
-        onChange={(e) =>
-          setProjectData({ ...projectData, category: e.target.value })
-        }
-      >
-        <option className="text-black" value="" style={{ color: "white" }}>
-          Select Category
-        </option>
-        {cat && cat.length > 0 ? (
-          cat.map((i) => (
-            <option key={i.c_name} value={i.id}>
-              {i.c_name}
-            </option>
-          ))
-        ) : (
-          <></>
-        )}
-      </Form.Select>
-    );
-  };
+  // const category = () => {
+  //   return (
+  //     <Form.Select
+  //       className=""
+  //       onChange={(e) =>
+  //         setProjectData({ ...projectData, category: e.target.value })
+  //       }
+  //     >
+  //       <option className="text-black" value="" style={{ color: "white" }}>
+  //         Select Category
+  //       </option>
+  //       {cat && cat.length > 0 ? (
+  //         cat.map((i) => (
+  //           <option key={i.c_name} value={i.id}>
+  //             {i.c_name}
+  //           </option>
+  //         ))
+  //       ) : (
+  //         <></>
+  //       )}
+  //     </Form.Select>
+  //   );
+  // };
+
+  const options = cat.map((category) => ({
+    value: category.id,
+    label: category.c_name,
+  }));
 
   const handleImage = async (e) => {
     const file = e.target.files[0];
@@ -347,7 +352,17 @@ function InnovatorProjects() {
                 </FloatingLabel>
               </Col>
             </Row>
-            <div>{category()}</div>
+            {/* <div>{category()}</div> */}
+            <Select
+              className=""
+              options={options}
+              onChange={(selectedOption) =>
+                setProjectData({
+                  ...projectData,
+                  category: selectedOption.value,
+                })
+              }
+            />{" "}
           </div>
           <hr />
           {/* <Row>
@@ -398,7 +413,7 @@ function InnovatorProjects() {
             Close
           </Button>
           <Button variant="outline-dark" onClick={addProject}>
-            Add 
+            Add
           </Button>
         </Modal.Footer>
       </Modal>
