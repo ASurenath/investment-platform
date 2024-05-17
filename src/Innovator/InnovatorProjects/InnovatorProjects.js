@@ -13,7 +13,7 @@ import {
 } from "react-bootstrap";
 import "./InnovatorProject.css";
 import Header from "../../CommonComponents/Header";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import useApi from "../../hooks/useApi";
 import { endpoints } from "../../services/defaults";
 import CreatableSelect from "react-select/creatable";
@@ -28,6 +28,7 @@ function InnovatorProjects() {
   const { request: getCategory } = useApi("get");
   const { request: addCategory } = useApi("post");
   const { request: addProjects } = useApi("mPost");
+  const {request:addcategories}=useApi("post")
 
   const [photo, setPhoto] = useState(null);
   const [projectData, setProjectData] = useState({
@@ -38,10 +39,7 @@ function InnovatorProjects() {
     end_date: "",
     image: "",
   });
-  const token = localStorage.getItem("token");
-  const header = {
-    Authorization: `Token ${token}`,
-  };
+
 
   const uploadImage =
     "https://static.vecteezy.com/system/resources/thumbnails/002/058/031/small_2x/picture-icon-photo-symbol-illustration-for-web-and-mobil-app-on-grey-background-free-vector.jpg";
@@ -111,6 +109,7 @@ function InnovatorProjects() {
     }
   };
 
+
   const addProject = async () => {
     const formData = new FormData();
     formData.append("project_name", projectData.project_name);
@@ -149,23 +148,27 @@ function InnovatorProjects() {
   };
 
   const handleCategoryChange = async (newValue, actionMeta) => {
-    if (actionMeta.action === "create-option") {
+    if (actionMeta.action === 'create-option') {
       try {
-        const newCategory = { c_name: newValue };
-        const response = await addCategory(endpoints.ADD_CATEGORY, newCategory);
-        if (response.data) {
-          setCat([...cat, response.data]);
+        const url = endpoints.ADD_CATEGORY;
+        const newCategory = { c_name: newValue.value };
+        const apiResponse = await addcategories(url, newCategory);
+        console.log(newCategory);
+        const { response, error } = apiResponse;
+        
+        if (!error && response) {
+          console.log(response,"response");
+          setCat([...cat, response.data.c_name]);
           setProjectData({ ...projectData, category: response.data.id });
         }
       } catch (error) {
         console.log(error);
       }
-    } else if (actionMeta.action === "select-option") {
+    } else if (actionMeta.action === 'select-option') {
       setProjectData({ ...projectData, category: newValue.value });
     }
   };
-
- 
+  console.log(cat);
 
 
   return (
@@ -215,7 +218,7 @@ function InnovatorProjects() {
                         />
                         <small>Target: ₹{project.TargetAmount}</small>
                         <div className="text-end">
-                          <Link to={"/innovator/project/id"}>
+                          <Link to={`/innovator/project/${project.id}`}>
                             <Button
                               variant="outline-dark rounded-0 "
                               className="ms-auto"

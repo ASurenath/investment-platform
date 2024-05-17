@@ -23,8 +23,6 @@ function InvestorProjects() {
   const { request: getProjects } = useApi("get");
   const [allProject, setAllProject] = useState([]);
 
-
-
   const getAllProjects = async () => {
     try {
       const url = `${endpoints.GET_ALL_PROJECTS}`;
@@ -32,6 +30,7 @@ function InvestorProjects() {
       const { response, error } = apiResponse;
       if (!error && response) {
         setAllProject(response.data);
+        console.log(response.data);
         console.log(allProject);
       }
     } catch (error) {
@@ -68,7 +67,7 @@ function InvestorProjects() {
                   <Col lg={4} sm={6} className="p-3" key={index}>
                     <Card className="rounded-0 border-0 text-black grey-card">
                       <Card.Img
-                        src={project.image}
+                        src={`http://127.0.0.1:8000/${project.image}`}
                         className="project-image rounded-0 m-0"
                       />
                       <Card.Body className="m-0">
@@ -76,24 +75,24 @@ function InvestorProjects() {
                           {project.project_name}
                         </h3>
                         <Card.Text>
-                          <p className="text-secondary m-0 p-0">
+                          {/* <p className="text-secondary m-0 p-0">
                             Innovator: {project.innovator}
-                          </p>
+                          </p> */}
                           {project.description}
                         </Card.Text>
                         <ProgressBar
                           variant="success"
                           className="striped"
                           now={
-                            (project.amount / project.TargetAmount) * 100
+                            (project.amount / project.amount) * 100
                           }
                           label={`₹${project.AmountRaised}`}
-                          title={`₹${project.AmountRaised} / ₹${project.TargetAmount}`}
+                          title={`₹${project.AmountRaised} / ₹${project.amount}`}
                           data-bs-theme="dark"
                         />
                         <small>Target: ₹{project.amount}</small>
                         <div className="text-end">
-                          <Link to={"/investor/project/id"}>
+                          <Link to={`/projectview/${project.id}`}>
                             <Button
                               variant="outline-dark rounded-0 "
                               className="ms-auto"

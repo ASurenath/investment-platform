@@ -24,6 +24,7 @@ function App() {
         <Route path='/innovator/projects' element={<InnovatorProjects />}></Route>
         <Route path='/innovator/messages' element={<InnovatorMessages />}></Route>
         <Route path='/innovator/home' element={<InnovatorHome/>}></Route>
+        <Route path='/projectview/:id'></Route>
         {/* Investor */}
         <Route path='/innovator/project/id' element={<ProjectView />}></Route>
         <Route path='/investor/projects' element={<InvestorProjects />}></Route>

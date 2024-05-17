@@ -1,13 +1,22 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Container, ListGroup, ProgressBar } from 'react-bootstrap'
 import Header from '../../CommonComponents/Header'
 import './InnovatorProject.css'
 import video1 from "../../Assets/ph-video-1.mp4";
 import video2 from "../../Assets/ph-video-2.mp4";
 import video3 from "../../Assets/ph-video-3.mp4";
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Footer from '../../CommonComponents/Footer/Footer';
+import { endpoints } from '../../services/defaults';
+import useApi from '../../hooks/useApi';
+
+
 function ProjectView() {
+  const[Project,setProject]=useState([])
+  const { request: projectview } = useApi("get");
+
+  const param = useParams()
+
   const project = {
     name: 'project3',
     coverImage: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCgn3Ii53eAxizXRbyO3R8Mlf-npKMr5G-_ycjbFrICg&s",
@@ -22,6 +31,29 @@ function ProjectView() {
     videos: [video1, video2, video3]
   }
   const navObj = [{ text: 'Home', link: '/' }, { text: 'Projects', link: '/innovator/projects' }, { text: 'Messages', link: '' }]
+
+  const {id}=param
+
+  
+  const getSingleProject =async()=>{
+    try {
+      const url = `${endpoints.PROJECT_VIEW}/${id}`;
+      const apiResponse = await projectview (url);
+      const { response, error } = apiResponse;
+      if (!error && response) {
+        setProject(response.data);
+        console.log(response.data);
+        console.log(project,"projects");
+      }
+    } catch (error) {
+      console.error("Failed to fetch projects", error);
+    }
+  }
+
+  useEffect(()=>{
+    getSingleProject()
+  },[])
+
   return (
     <>
       <div className='sticky-top'><Header navObj={navObj} /></div>
